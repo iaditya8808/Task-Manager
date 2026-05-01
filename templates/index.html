@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Tasks</title>
+    <!-- Modern Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Auth View -->
+        <div id="auth-view" class="view active glass-panel">
+            <div class="auth-container">
+                <div class="brand">
+                    <i class="fa-solid fa-layer-group brand-icon"></i>
+                    <h1>Nexus Tasks</h1>
+                </div>
+                <div class="toggle-container">
+                    <button id="btn-show-login" class="toggle-btn active">Login</button>
+                    <button id="btn-show-register" class="toggle-btn">Register</button>
+                </div>
+                
+                <form id="login-form" class="auth-form active">
+                    <div class="input-group">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="login-username" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="login-password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <div id="login-error" class="error-text"></div>
+                </form>
+                
+                <form id="register-form" class="auth-form">
+                    <div class="input-group">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="reg-username" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="reg-email" placeholder="Email" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="reg-password" placeholder="Password" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-user-tag"></i>
+                        <select id="reg-role">
+                            <option value="Member">Member</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                    <div id="reg-error" class="error-text"></div>
+                    <div id="reg-success" class="success-text"></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="view">
+            <nav class="sidebar glass-panel">
+                <div class="brand">
+                    <i class="fa-solid fa-layer-group brand-icon"></i>
+                    <h2>Nexus</h2>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#" class="active" data-target="projects-list"><i class="fa-solid fa-briefcase"></i> Projects</a></li>
+                    <li><a href="#" data-target="my-tasks"><i class="fa-solid fa-list-check"></i> My Tasks</a></li>
+                </ul>
+                <div class="user-profile">
+                    <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                    <div class="user-info">
+                        <span id="current-username">User</span>
+                        <span id="current-role" class="badge">Role</span>
+                    </div>
+                    <button id="btn-logout" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></button>
+                </div>
+            </nav>
+
+            <main class="main-content">
+                <header class="top-header">
+                    <h2 id="page-title">Dashboard</h2>
+                </header>
+
+                <div class="content-area">
+                    <!-- Projects List -->
+                    <div id="projects-list" class="section active">
+                        <div class="section-header">
+                            <h3>Projects</h3>
+                            <button id="btn-new-project" class="btn btn-primary admin-only"><i class="fa-solid fa-plus"></i> New Project</button>
+                        </div>
+                        <div id="projects-grid" class="grid">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Project Detail -->
+                    <div id="project-detail" class="section">
+                        <button id="btn-back-projects" class="btn btn-text"><i class="fa-solid fa-arrow-left"></i> Back to Projects</button>
+                        <div class="project-header glass-panel">
+                            <h3 id="detail-project-name">Project Name</h3>
+                            <p id="detail-project-desc">Description</p>
+                        </div>
+                        
+                        <div class="board-controls">
+                            <h4>Tasks</h4>
+                            <div class="actions">
+                                <button id="btn-add-member" class="btn btn-secondary admin-only"><i class="fa-solid fa-user-plus"></i> Add Member</button>
+                                <button id="btn-new-task" class="btn btn-primary admin-only"><i class="fa-solid fa-plus"></i> New Task</button>
+                            </div>
+                        </div>
+
+                        <div class="kanban-board">
+                            <div class="kanban-column" id="col-todo">
+                                <h5>To Do</h5>
+                                <div class="task-list" data-status="Todo"></div>
+                            </div>
+                            <div class="kanban-column" id="col-inprogress">
+                                <h5>In Progress</h5>
+                                <div class="task-list" data-status="In Progress"></div>
+                            </div>
+                            <div class="kanban-column" id="col-done">
+                                <h5>Done</h5>
+                                <div class="task-list" data-status="Done"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- My Tasks -->
+                    <div id="my-tasks" class="section">
+                        <h3>My Tasks</h3>
+                        <div class="kanban-board" id="my-tasks-board">
+                             <div class="kanban-column" id="my-col-todo">
+                                <h5>To Do</h5>
+                                <div class="task-list" data-status="Todo"></div>
+                            </div>
+                            <div class="kanban-column" id="my-col-inprogress">
+                                <h5>In Progress</h5>
+                                <div class="task-list" data-status="In Progress"></div>
+                            </div>
+                            <div class="kanban-column" id="my-col-done">
+                                <h5>Done</h5>
+                                <div class="task-list" data-status="Done"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal-overlay" class="modal-overlay"></div>
+    
+    <!-- New Project Modal -->
+    <div id="modal-new-project" class="modal glass-panel">
+        <div class="modal-header">
+            <h3>Create Project</h3>
+            <button class="btn-close-modal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form id="form-new-project">
+            <div class="input-group">
+                <input type="text" id="project-name" placeholder="Project Name" required>
+            </div>
+            <div class="input-group">
+                <textarea id="project-desc" placeholder="Description" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Create</button>
+        </form>
+    </div>
+
+    <!-- New Task Modal -->
+    <div id="modal-new-task" class="modal glass-panel">
+        <div class="modal-header">
+            <h3>Create Task</h3>
+            <button class="btn-close-modal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form id="form-new-task">
+            <input type="hidden" id="task-project-id">
+            <div class="input-group">
+                <input type="text" id="task-title" placeholder="Task Title" required>
+            </div>
+            <div class="input-group">
+                <textarea id="task-desc" placeholder="Description" rows="3"></textarea>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <select id="task-priority">
+                        <option value="Low">Low Priority</option>
+                        <option value="Medium" selected>Medium Priority</option>
+                        <option value="High">High Priority</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <input type="date" id="task-due-date">
+                </div>
+            </div>
+            <div class="input-group">
+                <select id="task-assignee">
+                    <option value="">Unassigned</option>
+                    <!-- Populated by JS -->
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Create Task</button>
+        </form>
+    </div>
+
+    <!-- Add Member Modal -->
+    <div id="modal-add-member" class="modal glass-panel">
+        <div class="modal-header">
+            <h3>Add Member to Project</h3>
+            <button class="btn-close-modal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form id="form-add-member">
+            <input type="hidden" id="member-project-id">
+            <div class="input-group">
+                <select id="member-user-id" required>
+                    <option value="">Select User</option>
+                    <!-- Populated by JS -->
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Add Member</button>
+        </form>
+    </div>
+
+    <!-- Edit Task Status Modal (For members) -->
+    <div id="modal-edit-task" class="modal glass-panel">
+        <div class="modal-header">
+            <h3>Update Task Status</h3>
+            <button class="btn-close-modal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form id="form-edit-task">
+            <input type="hidden" id="edit-task-id">
+            <div class="input-group">
+                <select id="edit-task-status" required>
+                    <option value="Todo">To Do</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Done">Done</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Update Status</button>
+        </form>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
