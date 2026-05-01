@@ -2,7 +2,7 @@
 
 Nexus Tasks is a full-stack, role-based project and task management system designed for seamless collaboration. It provides an intuitive, glassmorphism-styled web interface backed by a high-performance, asynchronous REST API.
 
-## 🚀 Features
+##  Features
 
 - **Role-Based Access Control (RBAC):**
   - **Admins** can create projects, assign users to projects, and create tasks.
@@ -12,7 +12,7 @@ Nexus Tasks is a full-stack, role-based project and task management system desig
 - **Task Tracking:** Create, assign, and update tasks with priorities, statuses, and due dates.
 - **Responsive UI:** Modern, dynamic frontend built with pure HTML/CSS/JS without heavy frameworks.
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 - **Backend:** [FastAPI](https://fastapi.tiangolo.com/) (Python)
 - **Database:** [MongoDB](https://www.mongodb.com/) (via PyMongo)
@@ -20,7 +20,7 @@ Nexus Tasks is a full-stack, role-based project and task management system desig
 - **Server:** Uvicorn (ASGI)
 - **Frontend:** Vanilla HTML5, CSS3 (Glassmorphism design), Vanilla JS (ES6+)
 
-## 💻 Local Development Setup
+##  Local Development Setup
 
 ### 1. Prerequisites
 - Python 3.9+
@@ -61,7 +61,7 @@ uvicorn app:app --reload --port 8000
 
 Open your browser and navigate to: `http://127.0.0.1:8000`
 
-## 🌐 Deployment to Railway
+##  Deployment to Railway
 
 This project is fully configured for easy deployment on [Railway.app](https://railway.app/).
 
@@ -71,7 +71,7 @@ This project is fully configured for easy deployment on [Railway.app](https://ra
 4. Go to the project's **Variables** tab in Railway and add your `MONGO_URI` and `JWT_SECRET_KEY`.
 5. Railway will automatically detect the `Procfile` and deploy the application using Gunicorn/Uvicorn!
 
-## 📂 Project Structure
+##  Project Structure
 
 ```
 .
